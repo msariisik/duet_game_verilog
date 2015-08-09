@@ -1,0 +1,346 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    14:36:47 05/23/2015 
+// Design Name: 
+// Module Name:    second 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
+module third(clk_in, r_vga, g_vga, b_vga, h_sync, v_sync, h_c, v_c);
+	
+	//clock defintion (clk_in = 50 mhz )
+	input clk_in;
+	
+	//button effects with clockwise btn<2> and counter clockwise btn<2>
+
+
+	//RGB color variable
+	reg [2:0] r;
+	reg [2:0] g;
+	reg [1:0] b;
+	
+	output reg [2:0] r_vga;
+	output reg [2:0] g_vga;
+	output reg [1:0] b_vga;
+	
+	//horizontal and vertical synch.
+	output reg h_sync;
+	output reg v_sync;
+	
+	// counter for horizontal and vertical axis
+	output [9:0] h_c;
+	output [9:0] v_c;
+	
+	// operating clock 25 mhz
+	reg clk_op;
+	
+	// length of horizontal and vertical axis
+	parameter h_end = 800;
+	parameter h_on = 640;
+	parameter h_fp = 16;
+	parameter h_bp = 48;
+	parameter h_sp = 96;
+	parameter h_p = 0;
+	parameter v_end = 525;
+	parameter v_on = 480;
+	parameter v_fp = 10;
+	parameter v_bp = 33;
+	parameter v_sp = 2;
+	parameter v_p = 0;	
+	
+	// variable for counting axis
+	reg [9:0] h_count = 0;
+	reg [9:0] v_count = 0;
+
+	assign h_c = h_count;
+	assign v_c = v_count;
+	
+	// What we will see on screen 
+	reg vga_out;
+	reg circle;
+	reg block1;
+	reg block2;
+	reg redball;
+	reg blueball;
+	
+	
+	reg [9:0] a=0;
+	
+	
+	
+	
+	
+	
+	//USER CODE/////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	//clock division from 50 mhz to 25 mhz
+	always @ (posedge clk_in)
+		begin
+			clk_op =~clk_op; 
+		end
+		
+	always @ (posedge clk_op)
+		begin
+			if (h_count == (h_end - 1))
+			begin
+					h_count = 0;
+					a=0;
+				
+				if (v_count == (v_end - 1))
+					begin
+					v_count = 0;
+					end
+				else
+					begin
+					v_count = v_count + 1;
+					end
+			end			
+			else
+				begin
+				h_count = h_count + 1;
+				a = a +1;
+				end
+			
+		end
+		
+		
+		always @*
+			begin
+				if (h_count>=0 && h_count<h_on && v_count>=0 && v_count<v_on)
+					vga_out = 1;
+				else
+					vga_out = 0;
+				if (h_count >= (h_on + h_fp) && h_count < (h_on + h_fp + h_sp))
+					h_sync = h_p;
+				else
+					h_sync = ~h_p;
+				if (v_count >= (v_on + v_fp) && v_count < (v_on + v_fp + v_sp))
+					v_sync = v_p;
+				else
+					v_sync = ~v_p;
+			end
+			
+			
+			// color implementation
+			always @*
+		begin
+			if (vga_out)
+				begin
+					r_vga = r;
+					g_vga = g;
+					b_vga = b;
+				if (circle)
+					begin
+						r_vga = 3'b111;
+						g_vga = 3'b111;
+						b_vga = 2'b00;
+					end	
+				else if (block1)
+					begin
+						r_vga = 3'b000;
+						g_vga = 3'b111;
+						b_vga = 2'b00;
+					end
+				else if (block2)
+					begin
+						r_vga = 3'b000;
+						g_vga = 3'b111;
+						b_vga = 2'b00;
+					end
+				else if (redball)
+					begin
+						r_vga = 3'b111;
+						g_vga = 3'b000;
+						b_vga = 2'b00;
+					end
+				else if (blueball)
+					begin
+						r_vga = 3'b000;
+						g_vga = 3'b000;
+						b_vga = 2'b11;
+					end
+				end
+			else
+				begin
+					r_vga= 3'b000;
+					g_vga= 3'b000;
+					b_vga= 2'b00;
+				end
+		end	
+		
+			
+		//blocks
+		
+		wire [9:0] block1_h_l;
+		wire [9:0] block1_h_r;
+		wire [9:0] block1_v_t;
+		wire [9:0] block1_v_b;
+		
+		wire [9:0] block2_h_l;
+		wire [9:0] block2_h_r;
+		wire [9:0] block2_v_t;
+		wire [9:0] block2_v_b;
+		
+		reg [9:0] block1_x = 200;
+		reg [9:0] block2_x = 450;
+		reg [9:0] block1_y = 0;
+		reg [9:0] block2_y =-200;
+		
+		assign	block1_h_l = block1_x - 50;
+		assign	block1_h_r = block1_x + 50;
+		assign	block1_v_t = block1_y - 50;
+		assign	block1_v_b = block1_y + 50;
+			
+		assign	block2_h_l = block2_x - 50;
+		assign	block2_h_r = block2_x + 50;
+		assign	block2_v_t = block2_y - 50;
+		assign	block2_v_b = block2_y + 50;
+		
+		
+		
+		
+		//balls on circle
+		
+		//circle
+		wire [6:0]circle_size_in = 78;
+		wire [6:0]circle_size_out = 80;
+		wire [8:0] circle_mx=320;
+		wire [8:0] circle_my=400;
+		wire [12:0] circle_rin;
+		wire [12:0] circle_rout;
+		
+		assign circle_rin = circle_size_in*circle_size_in;
+		assign circle_rout = circle_size_out*circle_size_out;
+		
+		//small balls
+	//	wire [8:0] redball_mx=241;
+		wire [8:0] redball_mx=50;
+	//	wire [8:0] blueball_mx=399;
+		wire [8:0] blueball_mx=600;
+		wire [8:0] blueball_my=400;
+		wire [8:0] redball_my=400;
+		wire [8:0] ball_r;
+		wire [5:0] ball_size = 20;
+		
+		assign ball_r = ball_size*ball_size;
+		
+		// block speed 
+		
+		reg b_speed;
+		reg clk_10000hz;
+		reg [11:0] c1=0;
+		reg [9:0] c2=0;
+		
+		always @ (posedge clk_in)
+		begin
+			if (c1<2499)
+				begin
+					c1 = c1+1;
+				end
+			else
+				begin
+					c1 = 0;
+					clk_10000hz = ~clk_10000hz;
+				end
+			
+		end
+		
+		always @ (posedge clk_10000hz)
+		begin
+			if (c2<99)
+				begin
+					c2 = c2+1;
+				end
+			else
+				begin
+					c2 = 0;
+					b_speed = ~b_speed;
+				end
+		end
+		
+		always @ (posedge b_speed)
+		begin
+			block1_y = block1_y + 1;
+			block2_y = block2_y +1;
+		end
+		
+		always @ (posedge clk_in)
+		begin
+			
+
+			if (h_count<=block2_h_r && h_count>=block2_h_l && v_count>=block2_v_t && v_count<=block2_v_b)
+				begin
+					block2=1;					
+				end
+			else if (h_count<=block1_h_r && h_count>=block1_h_l && v_count>=block1_v_t && v_count<=block1_v_b)
+				begin
+					block1=1;
+				end
+		/*	else if(circle_rout >= ((h_count-circle_mx)*(h_count-circle_mx)) + ((v_count-circle_my)*(v_count-circle_my)) && 
+			circle_rin <= ((h_count-circle_mx)*(h_count-circle_mx)) + ((v_count-circle_my)*(v_count-circle_my)))
+				begin
+					circle=1;
+				end
+*/			else
+				begin
+					block1=0;
+					circle =0;
+					block2=0;
+				end
+		end
+		
+		always @ (posedge clk_in)
+		begin
+			if (ball_r >= ((h_count-redball_mx)*(h_count-redball_mx)) + ((v_count-redball_my)*(v_count-redball_my)))
+				begin
+					redball=1;
+				end			
+			else
+				redball=0;
+		end
+	/*	always @ (posedge clk_in)
+		begin
+			if (ball_r >= ((h_count-blueball_mx)*(h_count-blueball_mx)) + ((v_count-blueball_my)*(v_count-blueball_my)))
+				begin
+					blueball=1;
+				end
+			else 
+				blueball = 0;
+		end
+	*/	
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

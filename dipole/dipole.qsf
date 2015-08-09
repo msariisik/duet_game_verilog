@@ -1,0 +1,99 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2014 Altera Corporation. All rights reserved.
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, the Altera Quartus II License Agreement,
+# the Altera MegaCore Function License Agreement, or other 
+# applicable license agreement, including, without limitation, 
+# that your use is for the sole purpose of programming logic 
+# devices manufactured by Altera and sold by Altera or its 
+# authorized distributors.  Please refer to the applicable 
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 14.1.0 Build 186 12/03/2014 SJ Web Edition
+# Date created = 09:56:57  May 25, 2015
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		dipole_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEMA5F31C6
+set_global_assignment -name TOP_LEVEL_ENTITY dipole
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:56:57  MAY 25, 2015"
+set_global_assignment -name LAST_QUARTUS_VERSION 14.1.0
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name EDA_SIMULATION_TOOL "<None>"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_simulation
+set_global_assignment -name VERILOG_FILE dipole.v
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_G13 -to b_vga[1]
+set_location_assignment PIN_J9 -to g_vga[0]
+set_location_assignment PIN_J10 -to g_vga[1]
+set_location_assignment PIN_H12 -to g_vga[2]
+set_location_assignment PIN_A13 -to r_vga[0]
+set_location_assignment PIN_C13 -to r_vga[1]
+set_location_assignment PIN_E13 -to r_vga[2]
+set_location_assignment PIN_AF14 -to clk_in
+set_location_assignment PIN_B11 -to h_sync
+set_location_assignment PIN_D11 -to v_sync
+set_location_assignment PIN_B13 -to b_vga[0]
+set_location_assignment PIN_A11 -to clk_out
+set_global_assignment -name CDF_FILE output_files/Chain1.cdf
+set_location_assignment PIN_F14 -to b_vga[3]
+set_location_assignment PIN_H14 -to b_vga[4]
+set_location_assignment PIN_F15 -to b_vga[5]
+set_location_assignment PIN_G15 -to b_vga[6]
+set_location_assignment PIN_J14 -to b_vga[7]
+set_location_assignment PIN_F13 -to r_vga[7]
+set_location_assignment PIN_E12 -to r_vga[6]
+set_location_assignment PIN_D12 -to r_vga[5]
+set_location_assignment PIN_C12 -to r_vga[4]
+set_location_assignment PIN_B12 -to r_vga[3]
+set_location_assignment PIN_E11 -to g_vga[7]
+set_location_assignment PIN_F11 -to g_vga[6]
+set_location_assignment PIN_G12 -to g_vga[5]
+set_location_assignment PIN_G11 -to g_vga[4]
+set_location_assignment PIN_G10 -to g_vga[3]
+set_location_assignment PIN_H13 -to b_vga[2]
+set_location_assignment PIN_AA14 -to cw
+set_location_assignment PIN_AA15 -to ccw
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name FITTER_EFFORT "FAST FIT"
+set_location_assignment PIN_Y16 -to stop
+set_location_assignment PIN_W15 -to start
+set_global_assignment -name CDF_FILE output_files/Chain2.cdf
+set_global_assignment -name CDF_FILE output_files/Chain3.cdf
+set_location_assignment PIN_V16 -to led2
+set_location_assignment PIN_W16 -to led
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
